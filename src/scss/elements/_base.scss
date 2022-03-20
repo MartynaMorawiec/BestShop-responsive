@@ -1,0 +1,39 @@
+/* Base */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: $font-open-sans;
+}
+
+.container {
+  max-width: 1352px; 
+  margin: 0 auto;
+  @include container;
+}
+
+
+h1, h2 {
+  font-family: $font-raleway;
+  font-weight: 400;
+}
+
+h1 {
+  font-size: 4.9rem;
+}
+
+h2 {
+  font-size: 3.6rem;
+}
+
+.logo {
+    font-family: $font-raleway;
+    font-weight: 300;
+    color: $color-primary;
+  }

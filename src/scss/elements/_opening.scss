@@ -1,0 +1,53 @@
+/* Opening Section*/
+
+.opening {
+  background-color: $color-white;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    margin-top: 100px;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  &__title {
+    font-size: 3.5rem;
+
+    @include tablet {
+      font-size: 4.9rem;
+    }
+  }
+
+  &__text {
+    margin: 1.25em 0 2.375em 0;
+    font: 400 1.6rem $font-open-sans;
+    text-align: center;
+  }
+
+  &__btn {
+    display: block;
+    width: 100%;
+    margin-bottom: 31.87px;
+    padding: 13.75px 0;
+    background-color: $color-primary;
+    border-radius: 40px;
+    box-shadow: 5px 10px 14px $color-primary-shadow;
+    font: 700 1.6rem $font-open-sans;
+    text-align: center;
+
+    @include tablet {
+      width: 275px;
+      padding: 22px 157px 23px;
+    }
+  }
+  
+  &__img {
+    width: 220%;
+
+    @include tablet {
+      width: 100%;
+    }
+  }
+}
+

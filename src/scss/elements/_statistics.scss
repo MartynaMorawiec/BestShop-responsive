@@ -1,0 +1,91 @@
+/* Statistics Section*/
+
+.statistics {
+  background-color: $color-white;
+  box-shadow: 0px -5px 80px rgba(0, 0, 0, 0.161);
+  padding: 50px 36px;
+
+  @include tablet {
+    padding: 62.5px 0 75.625px;
+  }
+
+  &__title {
+    text-align: center;
+    font-size: 3rem;
+
+    @include tablet {
+      font-size: 3.6rem;
+    }
+  }
+
+  &__boxes {
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+
+    @include tablet {
+      flex-direction: row;
+      justify-content: space-evenly;
+      margin-top: 103px;
+      font-family: $font-raleway;
+    }
+  }
+
+  &__box {
+    position: relative;
+    text-align: center;
+  }
+
+  &__circle {
+    display: flex;
+    justify-content: center;
+    height: 63px;
+    margin-top: 25px;
+    align-items: center;
+      
+    &::before {
+      content: "";
+      position: absolute;
+      width: 63px;
+      height: 63px;
+      border-radius: 50%;
+    }
+  }
+  
+  &__img {
+    position: relative;
+    left: 22px;
+  }
+
+  &__circle-red {
+    &::before{
+    background-color: $color-redish;
+    }
+  }
+
+  &__circle-blue {
+    &::before{
+      background-color: $color-primary;
+    }
+  }
+
+  &__circle-green {
+    &::before{
+      background-color: $color-green;
+    }
+  }
+
+  &__number {
+    margin: 14px 0 19px;
+    font: 800 2rem $font-raleway;
+    letter-spacing: 5.96px;
+  }
+
+  &__text {
+    margin-top: 11px;
+    font: 400 1.7rem/1.2 $font-raleway;
+    text-align: center;
+    color: $color-grey;
+  }
+}
+

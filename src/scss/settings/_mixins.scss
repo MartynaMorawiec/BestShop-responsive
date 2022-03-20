@@ -1,0 +1,28 @@
+@mixin container {
+  @media only screen and (max-width: 1352px) {
+    width: 100%;
+    padding: 0 15px;
+    @content;
+  }
+}
+
+
+@mixin tablet {
+  @media only screen and (min-width: 792px) {
+    @content;
+  }
+}
+
+
+@mixin desktop {
+  @media only screen and (min-width: 1024px) {
+    @content;
+  }
+}
+
+
+@mixin screen {
+  @media only screen and (min-width: 1350px) {
+    @content;
+  }
+}
