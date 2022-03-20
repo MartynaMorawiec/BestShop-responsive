@@ -17,14 +17,14 @@
       flex-direction: row;
       justify-content: space-around;
       padding-top: 50px;
-      align-items: center;
     }
   }
 
   &__column {
     &:first-child {
       @include tablet {
-      min-width: 425px;
+        padding-left: 30px;
+        min-width: 425px;
       }
     }
 
