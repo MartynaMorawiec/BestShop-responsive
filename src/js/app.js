@@ -36,7 +36,7 @@ form.addEventListener("input", function(e){
       dataProducts.querySelector(".item__price").innerText = `$${(e.target.value * 0.5).toFixed(2)}`;
 
     
-    } else if(typeof inputNumber[0].value.length === 0){
+    } else if( inputNumber[0].value.length === 0){
       dataProducts.style.display = "none";
 
     }
@@ -64,8 +64,6 @@ select.addEventListener("click", function(e) {
 
 
 });
-
-
 
 
 
