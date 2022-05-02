@@ -7,87 +7,154 @@ const dataPackage = document.querySelector("[data-id='package']");
 const dataAccounting = document.querySelector("[data-id='accounting']");
 const dataTerminal = document.querySelector("[data-id='terminal']");
 const total = document.querySelector("#total-price");
+const totalPrice = document.querySelector(".total__price");
 // chackbox
 const checkbox = document.querySelectorAll(".checkbox");
 const checkAcc = document.querySelector("#accounting");
 const checkTerm = document.querySelector("#terminal");
 
 // select
+const packageId = document.querySelector("#package");
 
 const select = document.querySelector(".select__dropdown");
+const selectLi = select.querySelectorAll("[data-value]");
 
 
-// calculate
-function calculate(){
+let productsPrice = 0.5;
+let ordersPrice = 0.25;
+
+
+
+
+function calculateInput(data, price, target) {
+  data.querySelector(".item__calc").innerText = `${target.value} * $${price}`;
+  data.querySelector(".item__price").innerText = `$${(target.value * price).toFixed(1)}`;
 
 }
 
+
+function valueText(data) {
+  data.querySelector(".item__calc").innerText = "";
+  data.querySelector(".item__price").innerText = `Value should be greater than 0`;
+
+}
+
+
 // input
-
-form.addEventListener("input", function(e){
-  const inputVal = e.target.value;
-
-  total.style.display = "block";
-
-  if(inputVal >= 1 && inputVal !== "-" && inputVal) {
-    if(e.target === inputNumber[0]) {
-      dataProducts.style.display = "block";
-      dataProducts.querySelector(".item__calc").innerText = `${e.target.value} * $0.5`;
-      dataProducts.querySelector(".item__price").innerText = `$${(e.target.value * 0.5).toFixed(2)}`;
-
+inputNumber.forEach(function(input) {
+  input.addEventListener("input", function(e) {
+    const inputValue = e.target.value;
     
-    } else if( inputNumber[0].value.length === 0){
+    if (inputValue >= 1 && inputValue.length > 0) {
+      total.style.display = "flex";
+
+      if (e.target === inputNumber[0]) {
+        dataProducts.style.display = "flex";
+
+        calculateInput(dataProducts, productsPrice, e.target);
+        
+        
+      } else if (e.target === inputNumber[1]) {
+        dataOrders.style.display = "flex";
+      
+        calculateInput(dataOrders, ordersPrice, e.target);
+        
+      }
+
+    }
+
+    if (inputNumber[0].value < 0) {
+      dataProducts.style.display = "flex";
+      
+      valueText(dataProducts);
+   
+    } else if (inputNumber[0].value.length === 0) {
       dataProducts.style.display = "none";
 
     }
-
-    if (e.target === inputNumber[1]) {
-      dataOrders.style.display = "block";
-      dataOrders.querySelector(".item__calc").innerText = `${e.target.value} * $0.25`;
-      dataOrders.querySelector(".item__price").innerText = `$${(e.target.value * 0.25).toFixed(2)}`;
-    }
+        
+    if (inputNumber[1].value < 0) {
+      dataOrders.style.display = "flex";
       
+      valueText(dataOrders);
+   
+    } else if (inputNumber[1].value.length === 0) {
+      dataOrders.style.display = "none";
+
+    } 
+
+    if (!inputNumber[0].value && !inputNumber[1].value) {
+    total.style.display = "none";
+   }
+
+  });
+});
+
+
+
+
+// select toggle class and display
+
+packageId.addEventListener("click", function(e) {
+  packageId.classList.toggle("open");
+
+  Array.from(packageId.classList).includes("open") ? select.style.display = "block" : select.style.display = "none";
+
+});
+
+
+// choose package display
+
+function package(package, price) {
+  dataPackage.style.display = "flex";
+
+  dataPackage.querySelector(".item__calc").innerText = package;
+  dataPackage.querySelector(".item__price").innerText = `$${price}`;
+
+}
+
+  
+selectLi.forEach(function(li) {
+  li.addEventListener("click", function(e) {
+    total.style.display = "flex";
+  
+  if (li.dataset.value === "basic") {
+    package("Basic", 0);
+
+   
+  } else if (li.dataset.value === "professional") {
+    package("Professional", 25);
+   
+  } else if (li.dataset.value === "premium") {
+    package("Premium", 60);
+   
   }
-});
 
-
-// select 
-
-select.addEventListener("click", function(e) {
-  select.classList.add("open");
-
-  this.style.display = "block";
-
-  const selChildren = select.children;
-
-  console.log(selChildren);
-
+  });
 
 });
 
 
 
-// checkbox
+// checkbox 
 
 checkbox.forEach(box => {
-  box.addEventListener("change", function(e){
-    if(checkAcc.checked === true) {
-      dataAccounting.style.display = "block";
+  box.addEventListener("change", function() {
+    total.style.display = "flex";
 
-    } else {
-      dataAccounting.style.display = "none";
-    }  
-    
-    if (checkTerm.checked === true) {
-      dataTerminal.style.display = "block";
+    checkAcc.checked ? dataAccounting.style.display = "flex" : dataAccounting.style.display = "none";
 
-    } else {
-      dataTerminal.style.display = "none";
+    checkTerm.checked ? dataTerminal.style.display = "flex" : dataTerminal.style.display = "none";
 
+    if ((!inputNumber[0].value && !inputNumber[1].value) && (!checkAcc.checked && !checkTerm.checked)) {
+      total.style.display = "none";
     }
 
   });
 });
+
+
+
 
 
 
