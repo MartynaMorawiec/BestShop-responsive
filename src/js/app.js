@@ -24,6 +24,15 @@ let productsPrice = 0.5;
 let ordersPrice = 0.25;
 
 
+function calculateTotal(data) {
+
+  let value = (parseFloat((data.querySelector(".item__price").innerText).substring(1))).toFixed(1); 
+  let sum = `${(Number(value) + parseFloat((totalPrice.innerText).substring(1))).toFixed(1)}`;
+ 
+  totalPrice.innerText = `$${sum}`;
+}
+
+
 
 
 function calculateInput(data, price, target) {
@@ -44,6 +53,7 @@ function valueText(data) {
 inputNumber.forEach(function(input) {
   input.addEventListener("input", function(e) {
     const inputValue = e.target.value;
+
     
     if (inputValue >= 1 && inputValue.length > 0) {
       total.style.display = "flex";
@@ -52,12 +62,17 @@ inputNumber.forEach(function(input) {
         dataProducts.style.display = "flex";
 
         calculateInput(dataProducts, productsPrice, e.target);
+        calculateTotal(dataProducts);
+      
         
         
       } else if (e.target === inputNumber[1]) {
         dataOrders.style.display = "flex";
       
         calculateInput(dataOrders, ordersPrice, e.target);
+        calculateTotal(dataOrders);
+        
+
         
       }
 
@@ -103,7 +118,7 @@ packageId.addEventListener("click", function(e) {
 });
 
 
-// choose package display
+// choose package 
 
 function package(package, price) {
   dataPackage.style.display = "flex";
@@ -120,13 +135,16 @@ selectLi.forEach(function(li) {
   
   if (li.dataset.value === "basic") {
     package("Basic", 0);
+    calculateTotal(dataPackage);
 
    
   } else if (li.dataset.value === "professional") {
     package("Professional", 25);
+    calculateTotal(dataPackage);
    
   } else if (li.dataset.value === "premium") {
     package("Premium", 60);
+    calculateTotal(dataPackage);
    
   }
 
@@ -142,9 +160,25 @@ checkbox.forEach(box => {
   box.addEventListener("change", function() {
     total.style.display = "flex";
 
-    checkAcc.checked ? dataAccounting.style.display = "flex" : dataAccounting.style.display = "none";
+    if (checkAcc.checked) {
 
-    checkTerm.checked ? dataTerminal.style.display = "flex" : dataTerminal.style.display = "none";
+      dataAccounting.style.display = "flex";
+      calculateTotal(dataAccounting);
+
+    } else {
+
+      dataAccounting.style.display = "none";
+    }
+
+
+    if (checkTerm.checked) {
+      dataTerminal.style.display = "flex";
+      calculateTotal(dataTerminal);
+
+    } else {
+      dataTerminal.style.display = "none";
+
+    }
 
     if ((!inputNumber[0].value && !inputNumber[1].value) && (!checkAcc.checked && !checkTerm.checked)) {
       total.style.display = "none";
