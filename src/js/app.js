@@ -1,196 +1,186 @@
-// Input 
-const form = document.querySelector(".calc__form");
-const inputNumber = document.querySelectorAll("[type='number']");
-const dataProducts = document.querySelector("[data-id='products']");
-const dataOrders = document.querySelector("[data-id='orders']");
-const dataPackage = document.querySelector("[data-id='package']");
-const dataAccounting = document.querySelector("[data-id='accounting']");
-const dataTerminal = document.querySelector("[data-id='terminal']");
-const total = document.querySelector("#total-price");
-const totalPrice = document.querySelector(".total__price");
-// chackbox
-const checkbox = document.querySelectorAll(".checkbox");
-const checkAcc = document.querySelector("#accounting");
-const checkTerm = document.querySelector("#terminal");
+// quantity
 
-// select
-const packageId = document.querySelector("#package");
-
-const select = document.querySelector(".select__dropdown");
-const selectLi = select.querySelectorAll("[data-value]");
+let price = {
+  products: 0,
+  orders: 0,
+  package: 0,
+  accounting: 0,
+  terminal: 0,
+  total() {
+    return this.products + this.orders + this.package + this.accounting + this.terminal;
+  }
+};
 
 
-let productsPrice = 0.5;
-let ordersPrice = 0.25;
+function calculateTotal() {
+  const totalPrice = document.querySelector('#total-price');
 
+  if (price.total()) {
+    totalPrice.style.display = 'flex';
+    totalPrice.querySelector('.total__price').innerText = `$${price.total()}`;
 
-function calculateTotal(data) {
+  } else {
+    totalPrice.style.display = 'none';
 
-  let value = (parseFloat((data.querySelector(".item__price").innerText).substring(1))).toFixed(1); 
-  let sum = `${(Number(value) + parseFloat((totalPrice.innerText).substring(1))).toFixed(1)}`;
- 
-  totalPrice.innerText = `$${sum}`;
+  }
 }
 
 
 
+// products 
 
-function calculateInput(data, price, target) {
-  data.querySelector(".item__calc").innerText = `${target.value} * $${price}`;
-  data.querySelector(".item__price").innerText = `$${(target.value * price).toFixed(1)}`;
+document.querySelector('#products').addEventListener('input', (event) =>{
 
-}
+  const productsTotal = document.querySelector('[data-id=products]');
 
+  if (event.target.value > 0) {
+    productsTotal.style.display = 'flex';
 
-function valueText(data) {
-  data.querySelector(".item__calc").innerText = "";
-  data.querySelector(".item__price").innerText = `Value should be greater than 0`;
+    productsTotal.querySelector('.item__calc').innerText = `${event.target.value} * $0.5`;
+    productsTotal.querySelector('.item__price').innerText = `$${event.target.value * 0.5}`;
 
-}
+    price.products = parseFloat(event.target.value) * 0.5;
 
-
-// input
-inputNumber.forEach(function(input) {
-  input.addEventListener("input", function(e) {
-    const inputValue = e.target.value;
-
-    
-    if (inputValue >= 1 && inputValue.length > 0) {
-      total.style.display = "flex";
-
-      if (e.target === inputNumber[0]) {
-        dataProducts.style.display = "flex";
-
-        calculateInput(dataProducts, productsPrice, e.target);
-        calculateTotal(dataProducts);
-      
-        
-        
-      } else if (e.target === inputNumber[1]) {
-        dataOrders.style.display = "flex";
-      
-        calculateInput(dataOrders, ordersPrice, e.target);
-        calculateTotal(dataOrders);
-        
-
-        
-      }
-
-    }
-
-    if (inputNumber[0].value < 0) {
-      dataProducts.style.display = "flex";
-      
-      valueText(dataProducts);
-   
-    } else if (inputNumber[0].value.length === 0) {
-      dataProducts.style.display = "none";
-
-    }
-        
-    if (inputNumber[1].value < 0) {
-      dataOrders.style.display = "flex";
-      
-      valueText(dataOrders);
-   
-    } else if (inputNumber[1].value.length === 0) {
-      dataOrders.style.display = "none";
-
-    } 
-
-    if (!inputNumber[0].value && !inputNumber[1].value) {
-    total.style.display = "none";
-   }
-
-  });
-});
+  } else if (event.target.value < 0) {
+    productsTotal.style.display = 'flex';
+    productsTotal.querySelector('.item__calc').innerText = "";
+    productsTotal.querySelector('.item__price').innerText = `Value should be greater than 0`;
 
 
-
-
-// select toggle class and display
-
-packageId.addEventListener("click", function(e) {
-  packageId.classList.toggle("open");
-
-  Array.from(packageId.classList).includes("open") ? select.style.display = "block" : select.style.display = "none";
-
-});
-
-
-// choose package 
-
-function package(package, price) {
-  dataPackage.style.display = "flex";
-
-  dataPackage.querySelector(".item__calc").innerText = package;
-  dataPackage.querySelector(".item__price").innerText = `$${price}`;
-
-}
-
-  
-selectLi.forEach(function(li) {
-  li.addEventListener("click", function(e) {
-    total.style.display = "flex";
-  
-  if (li.dataset.value === "basic") {
-    package("Basic", 0);
-    calculateTotal(dataPackage);
-
-   
-  } else if (li.dataset.value === "professional") {
-    package("Professional", 25);
-    calculateTotal(dataPackage);
-   
-  } else if (li.dataset.value === "premium") {
-    package("Premium", 60);
-    calculateTotal(dataPackage);
-   
+  } else {
+    productsTotal.style.display = 'none';
+    price.products = 0;
   }
 
+
+  calculateTotal();
+});
+
+
+
+// orders
+document.querySelector('#orders').addEventListener('input', (event) => {
+
+  const ordersTotal = document.querySelector('[data-id=orders]');
+
+  if (event.target.value > 0) {
+    ordersTotal.style.display = 'flex';
+
+    ordersTotal.querySelector('.item__calc').innerText = `${event.target.value} * $0.25`;
+    ordersTotal.querySelector('.item__price').innerText = `$${event.target.value * 0.25}`;
+
+    price.orders = parseFloat(event.target.value) * 0.25;
+
+  } else if (event.target.value < 0) {
+    ordersTotal.style.display = 'flex';
+    ordersTotal.querySelector('.item__calc').innerText = "";
+    ordersTotal.querySelector('.item__price').innerText = `Value should be greater than 0`;  
+
+  } else {
+    ordersTotal.style.display = 'none';
+    price.orders = 0;
+  }
+  calculateTotal();
+
+});
+
+
+
+
+// package
+document.querySelector('#package').addEventListener('click', (event) => {
+
+  const dropdown = document.querySelector('.select__dropdown');
+
+
+  if (dropdown.style.display === 'none') {
+    dropdown.style.display = 'block'; 
+    document.querySelector('#package').classList.add("open");
+
+
+  } else {
+    dropdown.style.display = 'none';
+    document.querySelector('#package').classList.remove("open");
+  }
+
+  
+  
+
+});
+
+
+document.querySelectorAll('[data-value]').forEach(li => {
+  li.addEventListener('click', (event) => {
+    const packageLi = document.querySelector("[data-id='package']");
+    
+
+    if (li.dataset.value === 'basic'){
+      packageLi.style.display = 'flex';
+      document.querySelector('#package').firstElementChild.innerText = `${event.target.dataset.value}`;
+
+      packageLi.querySelector('.item__calc').innerText = 'Basic';
+      price.package = 0;
+      packageLi.querySelector('.item__price').innerText = `$${price.package}`;
+     
+
+    } else if (li.dataset.value === 'professional') {
+      packageLi.style.display = 'flex';
+      document.querySelector('#package').firstElementChild.innerText = `${event.target.dataset.value}`;
+
+      packageLi.querySelector('.item__calc').innerText = 'Professional';
+      price.package = 25;
+      packageLi.querySelector('.item__price').innerText = `$${price.package}`;
+     
+      
+
+    } else if (li.dataset.value === 'premium') {
+      packageLi.style.display = 'flex';
+      document.querySelector('#package').firstElementChild.innerText = `${event.target.dataset.value}`;
+
+      packageLi.querySelector('.item__calc').innerText = 'Premium';
+      price.package = 60;
+      packageLi.querySelector('.item__price').innerText = `$${price.package}`;
+  
+    } 
+
+    calculateTotal();
+
   });
 
 });
 
 
 
-// checkbox 
+// accounting
+document.querySelector('#accounting').addEventListener('change', (event) => {
+  const accountingTotal = document.querySelector('[data-id=accounting]');
 
-checkbox.forEach(box => {
-  box.addEventListener("change", function() {
-    total.style.display = "flex";
+  if (event.target.checked) {
+    accountingTotal.style.display = 'flex';
+    price.accounting = 10;
+  } else {
+    accountingTotal.style.display = 'none';
+    price.accounting = 0;
+  }
 
-    if (checkAcc.checked) {
-
-      dataAccounting.style.display = "flex";
-      calculateTotal(dataAccounting);
-
-    } else {
-
-      dataAccounting.style.display = "none";
-    }
-
-
-    if (checkTerm.checked) {
-      dataTerminal.style.display = "flex";
-      calculateTotal(dataTerminal);
-
-    } else {
-      dataTerminal.style.display = "none";
-
-    }
-
-    if ((!inputNumber[0].value && !inputNumber[1].value) && (!checkAcc.checked && !checkTerm.checked)) {
-      total.style.display = "none";
-    }
-
-  });
+  calculateTotal();
 });
 
 
+// rental terminal
+document.querySelector('#terminal').addEventListener('change', (event) => {
+  const terminalTotal = document.querySelector('[data-id=terminal]');
 
+  if (event.target.checked) {
+    terminalTotal.style.display = 'flex';
+    price.terminal = 10;
+  } else {
+    terminalTotal.style.display = 'none';
+    price.terminal = 0;
+  }
 
-
+  calculateTotal();
+});
 
 
 
